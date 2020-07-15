@@ -12,7 +12,6 @@ import com.apollographql.apollo.coroutines.toDeferred
 import com.pratthamarora.rickandmorty_graphql.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -34,23 +33,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private suspend fun getCharacters() {
-            withContext(IO) {
-                val response = AplClient.getApolloClient(this@MainActivity)!!
-                    .query(GetCharactersQuery())
-                    .toDeferred()
-                    .await()
-                characterList = response.data?.characters?.results
+        withContext(IO) {
+            val response = AplClient.getApolloClient(this@MainActivity)!!
+                .query(GetCharactersQuery())
+                .toDeferred()
+                .await()
+            characterList = response.data?.characters?.results
+        }
+        if (!characterList.isNullOrEmpty()) {
+            binding.apply {
+                charactersAdapter.setCharacters(characterList!!.toList())
+                progressBar.isGone = true
+                charactersRecyclerview.isVisible = true
             }
-            if (!characterList.isNullOrEmpty()) {
-                binding.apply {
-                    charactersAdapter.setCharacters(characterList!!.toList())
-                    progressBar.isGone = true
-                    charactersRecyclerview.isVisible = true
-                }
-            } else {
-                binding.progressBar.isGone = true
-                Toast.makeText(this@MainActivity, "Some error occurred", Toast.LENGTH_SHORT).show()
-            }
+        } else {
+            binding.progressBar.isGone = true
+            Toast.makeText(this@MainActivity, "Some error occurred", Toast.LENGTH_SHORT).show()
+        }
 
     }
 
