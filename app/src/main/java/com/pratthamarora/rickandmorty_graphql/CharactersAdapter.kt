@@ -9,9 +9,9 @@ import coil.transform.RoundedCornersTransformation
 import com.pratthamarora.rickandmorty_graphql.databinding.CharacterItemBinding
 
 
-class CharactersAdapter() : RecyclerView.Adapter<CharactersAdapter.CharactersViewHolder>() {
+class CharactersAdapter : RecyclerView.Adapter<CharactersAdapter.CharactersViewHolder>() {
 
-    private val characters = ArrayList<GetCharactersQuery.Result>()
+    private val characters = ArrayList<GetCharactersQuery.Result?>()
 
     class CharactersViewHolder(val binding: CharacterItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -37,7 +37,7 @@ class CharactersAdapter() : RecyclerView.Adapter<CharactersAdapter.CharactersVie
         }
     }
 
-    fun setCharacters(character: List<GetCharactersQuery.Result>) {
+    fun setCharacters(character: List<GetCharactersQuery.Result?>) {
         characters.clear()
         characters.addAll(character)
         this.notifyDataSetChanged()
