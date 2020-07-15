@@ -27,6 +27,7 @@ android {
         generateKotlinModels.set(true) // or false for Java models
     }
 }
+
 def apollo_version = "2.2.0"
 
 dependencies {
